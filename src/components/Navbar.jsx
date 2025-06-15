@@ -1,41 +1,93 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { currentUser, logout } = useAuth();
+  const { currentTheme } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={{ backgroundColor: currentTheme.colors.surface }}>
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <img src="/logo.png" alt="TripWise" />
-        </Link>
-
-        <div className="search-bar">
-          <input type="text" placeholder="Search destinations, attractions, hotels..." />
-          <FaSearch className="search-icon" />
+        <div className="navbar-left">
+          <Link to="/" className="navbar-brand">
+            TripWise
+          </Link>
+          {currentUser && (
+            <div className="user-email" style={{ color: currentTheme.colors.textSecondary }}>
+              {currentUser.email}
+            </div>
+          )}
         </div>
 
-        <div className="nav-menu">
-          <Link to="/destinations" className="nav-item">Destinations</Link>
-          <Link to="/attractions" className="nav-item">Attractions</Link>
-          <Link to="/questionnaire" className="nav-item">Plan My Trip</Link>
-        </div>
+        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+          ☰
+        </button>
 
-        <div className="mobile-menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
+          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
+            Home
+          </Link>
+          <Link to="/destinations" className={`nav-link ${isActive('/destinations') ? 'active' : ''}`}>
+            Destinations
+          </Link>
+          <Link to="/attractions" className={`nav-link ${isActive('/attractions') ? 'active' : ''}`}>
+            Attractions
+          </Link>
+          {/* <Link to="/hotels" className={`nav-link ${isActive('/hotels') ? 'active' : ''}`}>
+            Hotels
+          </Link>
+          <Link to="/deals" className={`nav-link ${isActive('/deals') ? 'active' : ''}`}>
+            Deals
+          </Link> */}
+          <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>
+            About
+          </Link>
+
+          {currentUser ? (
+            <>
+              <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
+                Dashboard
+              </Link>
+              <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="nav-button">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-button secondary">
+                Login
+              </Link>
+              <Link to="/signup" className="nav-button">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
-
-      {isMenuOpen && (
-        <div className="mobile-menu">
-          <Link to="/destinations" className="mobile-nav-item">Destinations</Link>
-          <Link to="/attractions" className="mobile-nav-item">Attractions</Link>
-          <Link to="/questionnaire" className="mobile-nav-item">Plan My Trip</Link>
-        </div>
-      )}
     </nav>
   );
 };

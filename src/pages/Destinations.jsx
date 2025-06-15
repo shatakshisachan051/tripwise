@@ -862,9 +862,9 @@ const Destinations = () => {
   });
 
   return (
-    <div className="destinations-page">
-      <div className="search-section">
-        <div className="search-container">
+    <div  className="destinations-page">
+      <div  className="search-section">
+        <div style={{width: '30%'}} className="search-container">
           <input
             type="text"
             placeholder="Search destinations..."
@@ -875,7 +875,7 @@ const Destinations = () => {
         </div>
         <div className="category-filters">
           {categories.map(category => (
-            <button
+            <button style={{width: '60px'}}
               key={category}
               className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
               onClick={() => setSelectedCategory(category)}
