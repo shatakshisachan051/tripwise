@@ -1,89 +1,57 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const { currentUser, logout } = useAuth();
-  const { currentTheme } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout();
+      navigate('/');
     } catch (error) {
       console.error('Failed to log out:', error);
     }
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
-
   return (
-    <nav className="navbar" style={{ backgroundColor: currentTheme.colors.surface }}>
+    <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-left">
-          <Link to="/" className="navbar-brand">
-            TripWise
+          <Link to="/" className="navbar-logo">
+            <span className="logo-icon">✈️</span>
+            <span className="logo-text">TripWise</span>
           </Link>
           {currentUser && (
-            <div className="user-email" style={{ color: currentTheme.colors.textSecondary }}>
+            <div className="user-email">
               {currentUser.email}
             </div>
           )}
         </div>
 
-        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
-          ☰
-        </button>
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/destinations" className="nav-link">Destinations</Link>
+          <Link to="/attractions" className="nav-link">Attractions</Link>
+          {/* <Link to="/hotels" className="nav-link">Hotels</Link>
+          <Link to="/deals" className="nav-link">Deals</Link> */}
+          <Link to="/about" className="nav-link">About</Link>
+        </div>
 
-        <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
-          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
-            Home
-          </Link>
-          <Link to="/destinations" className={`nav-link ${isActive('/destinations') ? 'active' : ''}`}>
-            Destinations
-          </Link>
-          <Link to="/attractions" className={`nav-link ${isActive('/attractions') ? 'active' : ''}`}>
-            Attractions
-          </Link>
-          {/* <Link to="/hotels" className={`nav-link ${isActive('/hotels') ? 'active' : ''}`}>
-            Hotels
-          </Link>
-          <Link to="/deals" className={`nav-link ${isActive('/deals') ? 'active' : ''}`}>
-            Deals
-          </Link> */}
-          <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>
-            About
-          </Link>
-
+        <div className="nav-actions">
           {currentUser ? (
             <>
-              <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
-                Dashboard
-              </Link>
-              <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>
-                Profile
-              </Link>
-              <button onClick={handleLogout} className="nav-button">
+              <Link to="/dashboard" className="nav-button">Dashboard</Link>
+              <button onClick={handleLogout} className="nav-button logout">
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="nav-button secondary">
-                Login
-              </Link>
-              <Link to="/signup" className="nav-button">
-                Sign Up
-              </Link>
+              <Link to="/login" className="nav-button">Login</Link>
+              <Link to="/signup" className="nav-button signup">Sign Up</Link>
             </>
           )}
         </div>

@@ -7,8 +7,7 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import { useAuth } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -21,6 +20,7 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 // Placeholder components for other routes
@@ -145,6 +145,18 @@ const ThemeSwitcher = () => {
   );
 };
 
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
+  const { currentUser } = useAuth();
+  return currentUser ? children : <Navigate to="/login" />;
+};
+
+// Public Route component
+const PublicRoute = ({ children }) => {
+  const { currentUser } = useAuth();
+  return !currentUser ? children : <Navigate to="/dashboard" />;
+};
+
 function App() {
   console.log('App: Rendering with AuthProvider');
   return (
@@ -157,17 +169,38 @@ function App() {
             <main className="main-content">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/destinations" element={<PrivateRoute><Destinations /></PrivateRoute>} />
+                <Route path="/destinations" element={<Destinations />} />
                 <Route path="/attractions" element={<Attractions />} />
                 <Route path="/hotels" element={<Hotels />} />
                 <Route path="/deals" element={<Deals />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                <Route 
+                  path="/login" 
+                  element={
+                    <PublicRoute>
+                      <Login />
+                    </PublicRoute>
+                  } 
+                />
+                <Route 
+                  path="/signup" 
+                  element={
+                    <PublicRoute>
+                      <SignUp />
+                    </PublicRoute>
+                  } 
+                />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                 <Route path="/questionnaire" element={<PrivateRoute><Questionnaire /></PrivateRoute>} />
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
           </div>
