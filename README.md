@@ -1,12 +1,141 @@
-# React + Vite
+# TripWise - Your Smart Travel Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TripWise is a modern web application that helps travelers plan their trips, discover destinations, and manage their itineraries efficiently. Built with React and Firebase, it offers a seamless experience for both planning and managing travel adventures.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### For All Users
+- Browse popular destinations and attractions
+- View detailed information about places
+- Access travel guides and tips
+- Search for specific locations
+- View user reviews and ratings
 
-## Expanding the ESLint configuration
+### For Registered Users
+- Personalized travel recommendations
+- Save and manage travel itineraries
+- Create custom travel plans
+- Share experiences through reviews
+- Track favorite destinations
+- User profile management
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **Frontend:**
+  - React.js
+  - React Router for navigation
+  - CSS3 for styling
+  - Firebase Authentication
+  - Firebase Firestore
+
+- **Backend:**
+  - Firebase
+  - Firestore Database
+  - Firebase Authentication
+  - Firebase Storage
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- Firebase account
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/tripwise.git
+cd tripwise
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a Firebase project and add your configuration:
+   - Go to Firebase Console
+   - Create a new project
+   - Add a web app to your project
+   - Copy the Firebase configuration
+
+
+5. Start the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+## 📁 Project Structure
+
+```
+tripwise/
+├── public/
+│   └── images/
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   └── ...
+│   ├── contexts/
+│   │   ├── AuthContext.jsx
+│   │   └── ...
+│   ├── pages/
+│   │   ├── Dashboard.jsx
+│   │   ├── Destinations.jsx
+│   │   └── ...
+│   ├── App.jsx
+│   └── main.jsx
+├── .env
+├── package.json
+└── README.md
+```
+
+## 🔑 Key Features Implementation
+
+### Authentication
+- Email/Password authentication
+- Protected routes
+- User session management
+
+### Destinations
+- Browse destinations
+- View detailed information
+- Filter and search functionality
+- User reviews and ratings
+
+### Itinerary Management
+- Create and save itineraries
+- Add destinations to itineraries
+- Manage travel plans
+- Share itineraries
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- Your Name - Initial work - Shatakshi Sachan
+
+## 🙏 Acknowledgments
+
+- Firebase for backend services
+- React team for the amazing framework
+- All contributors who have helped shape this project
+
+## 📞 Support
+
+For support, email support@tripwise.com or create an issue in the repository.
+
